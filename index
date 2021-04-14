@@ -1,0 +1,206 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <title>Welcome</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.2.1/css/bootstrap.min.css" integrity="sha384-GJzZqFGwb1QTTN6wy59ffF1BuGJpLSa9DkKMp0DgiMDm4iYMj70gZWKYbI706tWS" crossorigin="anonymous">
+    <script src="https://code.jquery.com/jquery-3.3.1.slim.min.js" integrity="sha384-q8i/X+965DzO0rT7abK41JStQIAqVgRVzpbzo5smXKp4YfRvH+8abtTE1Pi6jizo" crossorigin="anonymous"></script>
+    <script src="//cdn.polyfill.io/v2/polyfill.min.js?features=fetch"></script>
+    <style>
+        body{
+            background-color: #333;
+        }   
+        main{
+            margin-top:10%; 
+            font-family: "Microsoft JhengHei", 'Times New Roman', Times, serif;
+            line-height: 2em;
+            font-size: 1.3em;
+        }
+        .head-text{
+            color: #fff;
+        }
+        #cont,#change{
+            font-family: "Microsoft JhengHei", 'Times New Roman', Times, serif;
+            color: #fff;
+            line-height: 2em;
+            font-size: 1.3em;
+        }
+        #a{
+            color: #fff;
+        }
+    </style>
+    <Script>
+    window.onload = function () {
+        function draw() {
+            var cvs = document.getElementById("cvs");
+            var ctx = cvs.getContext("2d");
+            ctx.arc(150,150,100,Math.PI*0.5,Math.PI*1.5)
+            ctx.fillStyle = "#fff";
+            ctx.fill();
+            ctx.beginPath();
+            ctx.arc(150,150,100,Math.PI*1.5,Math.PI*0.5)
+            ctx.fillStyle = "#000";
+            ctx.fill();
+            ctx.beginPath();
+            ctx.arc(150,200,50,Math.PI*0.5,Math.PI*1.5);
+            ctx.fillStyle = "#000";
+            ctx.fill();
+            ctx.beginPath();
+            ctx.arc(150,100,50,Math.PI*1.5,Math.PI*0.5);
+            ctx.fillStyle = "#fff";
+            ctx.fill();
+            ctx.beginPath();
+            ctx.arc(150,100,15,0,Math.PI*2);
+            ctx.fillStyle = "#000";
+            ctx.fill();
+            ctx.beginPath();
+            ctx.arc(150,200,15,0,Math.PI*2);
+            ctx.fillStyle = "#fff";
+            ctx.fill();
+        }
+        draw();
+    }
+    $(document).ready(function () {
+        //驗證規則
+        var rule = /^\d{3}$/;
+        var r1 = false;
+        var r2 = false;
+        var r3 = false;
+        //no1驗證
+        $("#no1").blur(function() {
+            if(rule.test($("#no1").val())){
+                $(".sp1").text("v")
+                $(".sp1").css({
+                    "border":"border",
+                    "color":"green"
+                })
+                r1 = true;
+            } else{
+                $(".sp1").text("x")
+                $(".sp1").css({
+                    "border":"border",
+                    "color":"red"
+                })
+                r1 = false;
+            }
+        })
+        //no2驗證
+        $("#no2").blur(function() {
+            if(rule.test($("#no2").val())){
+                $(".sp2").text("v")
+                $(".sp2").css({
+                    "border":"border",
+                    "color":"green"
+                })
+                r2 = true;
+            } else{
+                $(".sp2").text("x")
+                $(".sp2").css({
+                    "border":"border",
+                    "color":"red"
+                })
+                r2 = false;
+            }
+        })
+        //no3驗證
+        $("#no3").blur(function() {
+            if(rule.test($("#no3").val())){
+                $(".sp3").text("v")
+                $(".sp3").css({
+                    "border":"border",
+                    "color":"green"
+                })
+                r3 = true;
+            } else{
+                $(".sp3").text("x")
+                $(".sp3").css({
+                    "border":"border",
+                    "color":"red"
+                })
+                r3 = false;
+            }
+        })
+        //按鈕開放
+        $("input").blur(function() {
+            if(r1&&r2&&r3){
+                $("#a").removeClass("disabled")
+            } else {
+                $("#a").addClass("disabled")
+            }
+        });
+        //按鈕設定
+        $("#a").click(function() {
+            var n1 = Number($("input[name = 'n1']").val())% 8;
+            var n2 = Number($("input[name = 'n2']").val())% 8;
+            var n3 = Number($("input[name = 'n3']").val())% 6;
+            var s2 ="";
+            switch (n3) {
+                case 1:
+                    s2 = "一";
+                    break;
+                case 2:
+                    s2 = "二";
+                    break;
+                case 3:
+                    s2 = "三";
+                    break;
+                case 4:
+                    s2 = "四";
+                    break;
+                case 5:
+                    s2 = "五";
+                    break;
+                default:
+                    s2 = "六";
+                    break;
+            }
+            $("#change").text("變爻 " + s2);
+            url="64/"+n1+"-"+n2+".html";
+            fetch(url).then(function(response){
+                return response.text()
+            }).then(function(result) {
+                $("#cont").html(result);
+            })
+        });
+    });     
+    </Script>
+</head>
+<body>
+    <div class="container">
+        <main class="text-center">
+            <div class="head-text">
+                <h1>易經</h1>
+                <p>
+                    抉擇前夕，總是猶豫不決，但我們早就被安排好了<br>
+                    規則:
+                    誠心，不鬧，不玩笑<br>
+                    1.想著關於自己的問題<br>
+                    2.將三個三位數填入以下空格<br>
+                    3.按解答<br>
+                </p>
+            </div>
+            <div class="d-flex justify-content-center">
+                <form class="form-inline">
+                    <input id="no1" class="form-control mr-2 mb-2" type="text" name="n1" placeholder="100-999"><span class="sp1 mr-2"></span>
+                    <input id="no2" class="form-control mr-2 mb-2" type="text" name="n2" placeholder="100-999"><span class="sp2 mr-2"></span>
+                    <input id="no3" class="form-control mr-2 mb-2" type="text" name="n3" placeholder="100-999"><span class="sp3 mr-2"></span>
+                    <a id="a" class="btn btn-dark disabled">解答</a>
+                </form>
+            </div>
+        </main>
+        <section>
+            <div id="cont" class="text-center mt-3 "></div>
+            <h3 id="change" class="text-center"></h3>
+        </section>
+        <footer class="text-center">
+            <canvas id="cvs" width="300" height="300"></canvas>
+        </footer>
+    </div>
+    
+    
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.14.6/umd/popper.min.js" integrity="sha384-wHAiFfRlMFy6i5SRaxvfOCifBUQy1xHdJ/yoi7FRNXMRBu5WHdZYu1hA6ZOblgut" crossorigin="anonymous"></script>
+    <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.2.1/js/bootstrap.min.js" integrity="sha384-B0UglyR+jN6CkvvICOB2joaf5I4l3gm9GU6Hc1og6Ls7i6U/mkkaduKaBhlAXv9k" crossorigin="anonymous"></script>
+</body>
+</html>
